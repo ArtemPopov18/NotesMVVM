@@ -43,8 +43,9 @@ fun StartScreen(navHostController: NavHostController) {
             Text(text = "Где хранить данные?")
             Button(
                 onClick = {
-                    mViewModel.initDatabase(TYPE_ROOM)
-                    navHostController.navigate(route = Screens.Main.route)
+                    mViewModel.initDatabase(TYPE_ROOM) {
+                        navHostController.navigate(route = Screens.Main.route)
+                    }
                 },
                 modifier = Modifier
                     .width(200.dp)
@@ -54,8 +55,9 @@ fun StartScreen(navHostController: NavHostController) {
             }
             Button(
                 onClick = {
-                    mViewModel.initDatabase(TYPE_FIREBASE)
-                    navHostController.navigate(route = Screens.Main.route)
+                    mViewModel.initDatabase(TYPE_FIREBASE) {
+                        navHostController.navigate(route = Screens.Main.route)
+                    }
                 },
                 modifier = Modifier
                     .width(200.dp)

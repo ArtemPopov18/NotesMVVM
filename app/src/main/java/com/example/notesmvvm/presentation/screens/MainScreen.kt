@@ -39,7 +39,6 @@ fun MainScreen(navHostController: NavHostController) {
     val mViewModel: MainViewModel =
         viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
 
-    val notes = mViewModel.readNote.observeAsState(listOf()).value
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = {
             navHostController.navigate(route = Screens.Add.route)
@@ -47,11 +46,11 @@ fun MainScreen(navHostController: NavHostController) {
             Icon(imageVector = Icons.Filled.AddCircle, contentDescription = null)
         }
     }) {
-        LazyColumn{
-            items(notes){note ->
-                NoteItem(paddingValues = it, navHostController = navHostController, note = note)
-            }
-        }
+//        LazyColumn{
+//            items(notes){note ->
+//                NoteItem(paddingValues = it, navHostController = navHostController, note = note)
+//            }
+//        }
     }
 }
 
