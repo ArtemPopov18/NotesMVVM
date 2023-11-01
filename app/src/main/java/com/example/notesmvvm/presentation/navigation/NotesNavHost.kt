@@ -1,13 +1,13 @@
-package com.example.notesmvvm.navigation
+package com.example.notesmvvm.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.notesmvvm.screens.AddScreen
-import com.example.notesmvvm.screens.MainScreen
-import com.example.notesmvvm.screens.NoteScreen
-import com.example.notesmvvm.screens.StartScreen
+import com.example.notesmvvm.presentation.screens.AddScreen
+import com.example.notesmvvm.presentation.screens.MainScreen
+import com.example.notesmvvm.presentation.screens.NoteScreen
+import com.example.notesmvvm.presentation.screens.StartScreen
 import com.example.notesmvvm.utils.Constants
 
 sealed class Screens(val route: String) {
