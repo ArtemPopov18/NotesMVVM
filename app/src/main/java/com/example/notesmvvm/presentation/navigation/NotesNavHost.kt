@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.notesmvvm.presentation.MainViewModel
 import com.example.notesmvvm.presentation.screens.AddScreen
 import com.example.notesmvvm.presentation.screens.MainScreen
 import com.example.notesmvvm.presentation.screens.NoteScreen
@@ -18,21 +19,21 @@ sealed class Screens(val route: String) {
 }
 
 @Composable
-fun NotesNavHost() {
+fun NotesNavHost(mViewModel: MainViewModel) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = Screens.Start.route) {
         composable(route = Screens.Start.route) {
-            StartScreen(navHostController = navController)
+            StartScreen(navHostController = navController, viewModel = mViewModel)
         }
         composable(route = Screens.Main.route) {
-            MainScreen(navHostController = navController)
+            MainScreen(navHostController = navController, viewModel = mViewModel)
         }
         composable(route = Screens.Add.route) {
-            AddScreen(navHostController = navController)
+            AddScreen(navHostController = navController, viewModel = mViewModel)
         }
         composable(route = Screens.Note.route) {
-            NoteScreen(navHostController = navController)
+            NoteScreen(navHostController = navController, viewModel = mViewModel)
         }
     }
 }

@@ -20,13 +20,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.notesmvvm.model.Note
+import com.example.notesmvvm.presentation.MainViewModel
 import com.example.notesmvvm.presentation.navigation.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddScreen(navHostController: NavHostController) {
+fun AddScreen(navHostController: NavHostController, viewModel: MainViewModel) {
     var title by remember { mutableStateOf("") }
     var subtitle by remember { mutableStateOf("") }
+    var isButtonEnabled by remember { mutableStateOf(false) }
+
     Scaffold {
         Column(
             modifier = Modifier
@@ -44,18 +48,31 @@ fun AddScreen(navHostController: NavHostController) {
 
             OutlinedTextField(
                 value = title,
-                onValueChange = { title = it },
-                label = { Text(text = "Заголовок") })
+                onValueChange = {
+                    title = it
+                    isButtonEnabled = title.isNotEmpty() && subtitle.isNotEmpty()
+                },
+                label = { Text(text = "Заголовок") },
+                isError = title.isEmpty()
+            )
 
             OutlinedTextField(
                 value = subtitle,
-                onValueChange = { subtitle = it },
-                label = { Text(text = "Текст заметки") })
+                onValueChange = {
+                    subtitle = it
+                    isButtonEnabled = title.isNotEmpty() && subtitle.isNotEmpty()
+                },
+                label = { Text(text = "Текст заметки") },
+                isError = subtitle.isEmpty()
+            )
 
             Button(
                 modifier = Modifier.padding(top = 16.dp),
+                enabled = isButtonEnabled,
                 onClick = {
-                    navHostController.navigate(route = Screens.Main.route)
+                    viewModel.addNote(note = Note(title = title, subtitle = subtitle)) {
+                        navHostController.navigate(route = Screens.Main.route)
+                    }
                 }) {
                 Text(text = "Добавить заметку")
             }

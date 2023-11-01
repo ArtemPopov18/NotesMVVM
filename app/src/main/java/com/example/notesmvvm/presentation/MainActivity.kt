@@ -1,5 +1,6 @@
 package com.example.notesmvvm.presentation
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,8 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.notesmvvm.presentation.navigation.NotesNavHost
 import com.example.notesmvvm.presentation.theme.NotesMVVMTheme
 
@@ -27,6 +30,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NotesMVVMTheme {
+                val context = LocalContext.current
+                val mViewModel: MainViewModel =
+                    viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
                 Scaffold(
                     topBar = {
                         TopAppBar(
@@ -42,10 +48,12 @@ class MainActivity : ComponentActivity() {
                     },
                     content = {
                         Surface(
-                            modifier = Modifier.fillMaxSize().padding(it),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(it),
                             color = MaterialTheme.colorScheme.background
                         ) {
-                            NotesNavHost()
+                            NotesNavHost(mViewModel)
                         }
                     }
                 )

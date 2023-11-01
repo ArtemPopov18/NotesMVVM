@@ -26,7 +26,7 @@ import com.example.notesmvvm.utils.TYPE_ROOM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StartScreen(navHostController: NavHostController) {
+fun StartScreen(navHostController: NavHostController, viewModel: MainViewModel) {
     val context = LocalContext.current
     val mViewModel: MainViewModel =
         viewModel(factory = MainViewModelFactory(context.applicationContext as Application))

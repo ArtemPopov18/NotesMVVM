@@ -1,8 +1,6 @@
 package com.example.notesmvvm.presentation.screens
 
-import android.app.Application
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,25 +18,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.notesmvvm.model.Note
 import com.example.notesmvvm.presentation.MainViewModel
-import com.example.notesmvvm.presentation.MainViewModelFactory
 import com.example.notesmvvm.presentation.navigation.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navHostController: NavHostController) {
-    val context = LocalContext.current
-    val mViewModel: MainViewModel =
-        viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
-
+fun MainScreen(navHostController: NavHostController, viewModel: MainViewModel) {
+    val notes = viewModel.readAllNotes().observeAsState(listOf()).value
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = {
             navHostController.navigate(route = Screens.Add.route)
@@ -46,11 +38,11 @@ fun MainScreen(navHostController: NavHostController) {
             Icon(imageVector = Icons.Filled.AddCircle, contentDescription = null)
         }
     }) {
-//        LazyColumn{
-//            items(notes){note ->
-//                NoteItem(paddingValues = it, navHostController = navHostController, note = note)
-//            }
-//        }
+        LazyColumn{
+            items(notes){note ->
+                NoteItem(paddingValues = it, navHostController = navHostController, note = note)
+            }
+        }
     }
 }
 
