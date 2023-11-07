@@ -21,6 +21,7 @@ import androidx.navigation.NavHostController
 import com.example.notesmvvm.presentation.MainViewModel
 import com.example.notesmvvm.presentation.MainViewModelFactory
 import com.example.notesmvvm.presentation.navigation.Screens
+import com.example.notesmvvm.utils.Constants
 import com.example.notesmvvm.utils.TYPE_FIREBASE
 import com.example.notesmvvm.utils.TYPE_ROOM
 
@@ -40,7 +41,7 @@ fun StartScreen(navHostController: NavHostController, viewModel: MainViewModel) 
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Где хранить данные?")
+            Text(text = Constants.Keys.WHERE_IS_THE_DATA_STORED)
             Button(
                 onClick = {
                     mViewModel.initDatabase(TYPE_ROOM) {
@@ -51,7 +52,7 @@ fun StartScreen(navHostController: NavHostController, viewModel: MainViewModel) 
                     .width(200.dp)
                     .padding(vertical = 8.dp)
             ) {
-                Text(text = "На смартфоне")
+                Text(text = Constants.Keys.ROOM_DATABASE)
             }
             Button(
                 onClick = {
@@ -63,7 +64,7 @@ fun StartScreen(navHostController: NavHostController, viewModel: MainViewModel) 
                     .width(200.dp)
                     .padding(vertical = 8.dp)
             ) {
-                Text(text = "На облачном хранилище", textAlign = TextAlign.Center)
+                Text(text = Constants.Keys.FIREBASE_DATABASE, textAlign = TextAlign.Center)
             }
         }
     }

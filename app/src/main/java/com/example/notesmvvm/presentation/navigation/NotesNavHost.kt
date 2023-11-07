@@ -32,8 +32,8 @@ fun NotesNavHost(mViewModel: MainViewModel) {
         composable(route = Screens.Add.route) {
             AddScreen(navHostController = navController, viewModel = mViewModel)
         }
-        composable(route = Screens.Note.route) {
-            NoteScreen(navHostController = navController, viewModel = mViewModel)
+        composable(route = Screens.Note.route + "/{${Constants.Keys.ID}}") {
+            NoteScreen(navHostController = navController, viewModel = mViewModel, noteId = it.arguments?.getString(Constants.Keys.ID))
         }
     }
 }

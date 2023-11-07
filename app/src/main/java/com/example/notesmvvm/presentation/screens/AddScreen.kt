@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import com.example.notesmvvm.model.Note
 import com.example.notesmvvm.presentation.MainViewModel
 import com.example.notesmvvm.presentation.navigation.Screens
+import com.example.notesmvvm.utils.Constants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,7 +41,7 @@ fun AddScreen(navHostController: NavHostController, viewModel: MainViewModel) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Добавить заметку",
+                text = Constants.Keys.ADD_NEW_NOTE,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 8.dp)
@@ -52,7 +53,7 @@ fun AddScreen(navHostController: NavHostController, viewModel: MainViewModel) {
                     title = it
                     isButtonEnabled = title.isNotEmpty() && subtitle.isNotEmpty()
                 },
-                label = { Text(text = "Заголовок") },
+                label = { Text(text = Constants.Keys.NOTE_TITLE) },
                 isError = title.isEmpty()
             )
 
@@ -62,7 +63,7 @@ fun AddScreen(navHostController: NavHostController, viewModel: MainViewModel) {
                     subtitle = it
                     isButtonEnabled = title.isNotEmpty() && subtitle.isNotEmpty()
                 },
-                label = { Text(text = "Текст заметки") },
+                label = { Text(text = Constants.Keys.NOTE_SUBTITLE) },
                 isError = subtitle.isEmpty()
             )
 
@@ -74,7 +75,7 @@ fun AddScreen(navHostController: NavHostController, viewModel: MainViewModel) {
                         navHostController.navigate(route = Screens.Main.route)
                     }
                 }) {
-                Text(text = "Добавить заметку")
+                Text(text = Constants.Keys.ADD_NOTE)
             }
         }
     }

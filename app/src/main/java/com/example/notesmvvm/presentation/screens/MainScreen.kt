@@ -57,7 +57,7 @@ fun NoteItem(
             .fillMaxWidth()
             .padding(paddingValues)
             .padding(vertical = 8.dp, horizontal = 24.dp)
-            .clickable { navHostController.navigate(route = Screens.Note.route) },
+            .clickable { navHostController.navigate(route = Screens.Note.route + "/${note.id}") },
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {
         Text(
