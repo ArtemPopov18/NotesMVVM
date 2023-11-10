@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.notesmvvm.model.Note
 import com.example.notesmvvm.presentation.MainViewModel
+import com.example.notesmvvm.presentation.navigation.Screens
 import com.example.notesmvvm.utils.BD_TYPE
 import com.example.notesmvvm.utils.Constants
 import com.example.notesmvvm.utils.TYPE_FIREBASE
@@ -48,7 +49,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun NoteScreen(navHostController: NavHostController, viewModel: MainViewModel, noteId: String?) {
     val notes = viewModel.readAllNotes().observeAsState(listOf()).value
-    val note = when (BD_TYPE) {
+    val note = when (BD_TYPE.value) {
         TYPE_FIREBASE -> {
             notes.firstOrNull { it.firebaseId == noteId } ?: Note()
         }
@@ -107,7 +108,7 @@ fun NoteScreen(navHostController: NavHostController, viewModel: MainViewModel, n
                         ) {
                             openBottomSheet = false
                             navHostController.navigate(route = Constants.Screens.MAIN_SCREENS) {
-                                popUpTo(route = Constants.Screens.MAIN_SCREENS) {
+                                popUpTo(route = Screens.Main.route) {
                                     inclusive = true
                                 }
                             }

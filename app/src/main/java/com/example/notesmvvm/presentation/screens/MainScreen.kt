@@ -56,7 +56,7 @@ fun NoteItem(
     navHostController: NavHostController,
     note: Note
 ) {
-    val noteId = when (BD_TYPE) {
+    val noteId = when (BD_TYPE.value) {
         TYPE_FIREBASE -> note.firebaseId
         TYPE_ROOM -> note.id
         else -> Constants.Keys.EMPTY

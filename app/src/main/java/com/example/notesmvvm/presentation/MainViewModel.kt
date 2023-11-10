@@ -10,6 +10,8 @@ import com.example.notesmvvm.data.firebase.AppFirebaseRepository
 import com.example.notesmvvm.data.room.AppRoomDatabase
 import com.example.notesmvvm.data.room.repository.RoomRepository
 import com.example.notesmvvm.model.Note
+import com.example.notesmvvm.utils.BD_TYPE
+import com.example.notesmvvm.utils.Constants
 import com.example.notesmvvm.utils.REPOSITORY
 import com.example.notesmvvm.utils.TYPE_FIREBASE
 import com.example.notesmvvm.utils.TYPE_ROOM
@@ -69,4 +71,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun readAllNotes() = REPOSITORY.readAll
+
+    fun singOut(onSuccess: () -> Unit) {
+        when (BD_TYPE.value) {
+            TYPE_FIREBASE,
+            TYPE_ROOM -> {
+                REPOSITORY.singOut()
+                BD_TYPE.value = Constants.Keys.EMPTY
+                onSuccess()
+            }
+            else -> {
+                Log.d("проверь датаслой", "Ошибка delete ${BD_TYPE.value}")
+            }
+        }
+    }
 }
