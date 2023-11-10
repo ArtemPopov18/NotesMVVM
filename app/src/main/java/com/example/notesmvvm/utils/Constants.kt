@@ -7,6 +7,8 @@ const val TYPE_ROOM = "type_room"
 const val TYPE_FIREBASE = "type_firebase"
 
 lateinit var REPOSITORY: DatabaseRepository
+lateinit var LOGIN: String
+lateinit var PASSWORD: String
 
 object Constants {
 
@@ -35,6 +37,11 @@ object Constants {
         const val EDIT_NOTE = "Введите текс"
         const val EMPTY = ""
         const val UPDATE_SUBTITLE = "Обновить заметку"
+        const val SIGN_IN = "Войти"
+        const val LOG_IN = "Авторизоваться"
+        const val LOGIN_TEXT = "Email"
+        const val PASSWORD_TEXT = "Пароль"
+        const val PASSWORD_EMPTY = ""
     }
 
 

@@ -1,10 +1,12 @@
 package com.example.notesmvvm.presentation
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.notesmvvm.data.firebase.AppFirebaseRepository
 import com.example.notesmvvm.data.room.AppRoomDatabase
 import com.example.notesmvvm.data.room.repository.RoomRepository
 import com.example.notesmvvm.model.Note
@@ -25,20 +27,28 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 REPOSITORY = RoomRepository(dao)
                 onSuccess()
             }
+
+            TYPE_FIREBASE -> {
+                REPOSITORY = AppFirebaseRepository()
+                REPOSITORY.connectToDatabase(
+                    { onSuccess() },
+                    { Log.d("проверь датаслой", "Ошибка $it") }
+                )
+            }
         }
     }
 
     fun addNote(note: Note, onSuccess: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             REPOSITORY.create(note = note) {
-                viewModelScope.launch(Dispatchers.Main){
+                viewModelScope.launch(Dispatchers.Main) {
                     onSuccess()
                 }
             }
         }
     }
 
-    fun updateNote(note: Note, onSuccess: () -> Unit){
+    fun updateNote(note: Note, onSuccess: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             REPOSITORY.update(note = note) {
                 viewModelScope.launch(Dispatchers.Main) {
@@ -48,10 +58,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun deleteNote(note: Note, onSuccess: () -> Unit){
+    fun deleteNote(note: Note, onSuccess: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             REPOSITORY.delete(note = note) {
-                viewModelScope.launch(Dispatchers.Main){
+                viewModelScope.launch(Dispatchers.Main) {
                     onSuccess()
                 }
             }
