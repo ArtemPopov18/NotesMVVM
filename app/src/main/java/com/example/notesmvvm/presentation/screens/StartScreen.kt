@@ -1,5 +1,6 @@
 package com.example.notesmvvm.presentation.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -81,11 +82,10 @@ fun StartScreen(navHostController: NavHostController, viewModel: MainViewModel) 
                     onClick = {
                         LOGIN = login
                         PASSWORD = password
+                        Log.d("рхранит", "$LOGIN $PASSWORD")
                         viewModel.initDatabase(TYPE_FIREBASE) {
-
+                            navHostController.navigate(route = Screens.Main.route)
                         }
-                        openBottomSheet = false
-
                     },
                     enabled = login.isNotEmpty() && password.isNotEmpty()
                 ) {
