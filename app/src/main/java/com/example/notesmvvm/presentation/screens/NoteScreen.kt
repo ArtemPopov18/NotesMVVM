@@ -38,17 +38,27 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.notesmvvm.model.Note
 import com.example.notesmvvm.presentation.MainViewModel
+import com.example.notesmvvm.utils.BD_TYPE
 import com.example.notesmvvm.utils.Constants
+import com.example.notesmvvm.utils.TYPE_FIREBASE
+import com.example.notesmvvm.utils.TYPE_ROOM
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(navHostController: NavHostController, viewModel: MainViewModel, noteId: String?) {
     val notes = viewModel.readAllNotes().observeAsState(listOf()).value
-    val note = notes.firstOrNull { it.id == noteId?.toInt() } ?: Note(
-        title = Constants.Keys.NONE,
-        subtitle = Constants.Keys.NONE
-    )
+    val note = when (BD_TYPE) {
+        TYPE_FIREBASE -> {
+            notes.firstOrNull { it.firebaseId == noteId } ?: Note()
+        }
+
+        TYPE_ROOM -> {
+            notes.firstOrNull { it.id == noteId?.toInt() } ?: Note()
+        }
+
+        else -> Note()
+    }
     val coroutineScope = rememberCoroutineScope()
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(true)
@@ -91,7 +101,8 @@ fun NoteScreen(navHostController: NavHostController, viewModel: MainViewModel, n
                             note = Note(
                                 id = note.id,
                                 title = title,
-                                subtitle = subtitle
+                                subtitle = subtitle,
+                                firebaseId = note.firebaseId
                             )
                         ) {
                             openBottomSheet = false

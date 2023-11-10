@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.notesmvvm.presentation.MainViewModel
 import com.example.notesmvvm.presentation.navigation.Screens
+import com.example.notesmvvm.utils.BD_TYPE
 import com.example.notesmvvm.utils.Constants
 import com.example.notesmvvm.utils.LOGIN
 import com.example.notesmvvm.utils.PASSWORD
@@ -82,12 +83,12 @@ fun StartScreen(navHostController: NavHostController, viewModel: MainViewModel) 
                     onClick = {
                         LOGIN = login
                         PASSWORD = password
-                        Log.d("рхранит", "$LOGIN $PASSWORD")
                         viewModel.initDatabase(TYPE_FIREBASE) {
+                            BD_TYPE = TYPE_FIREBASE
                             navHostController.navigate(route = Screens.Main.route)
                         }
                     },
-                    enabled = login.isNotEmpty() && password.isNotEmpty()
+                    enabled = login.isNotEmpty() && password.isNotEmpty() && password.length > 5
                 ) {
                     Text(text = Constants.Keys.SIGN_IN)
                 }
@@ -108,6 +109,7 @@ fun StartScreen(navHostController: NavHostController, viewModel: MainViewModel) 
             Button(
                 onClick = {
                     viewModel.initDatabase(TYPE_ROOM) {
+                        BD_TYPE = TYPE_ROOM
                         navHostController.navigate(route = Screens.Main.route)
                     }
                 },

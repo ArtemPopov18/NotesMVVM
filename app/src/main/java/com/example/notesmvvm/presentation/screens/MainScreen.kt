@@ -26,6 +26,10 @@ import androidx.navigation.NavHostController
 import com.example.notesmvvm.model.Note
 import com.example.notesmvvm.presentation.MainViewModel
 import com.example.notesmvvm.presentation.navigation.Screens
+import com.example.notesmvvm.utils.BD_TYPE
+import com.example.notesmvvm.utils.Constants
+import com.example.notesmvvm.utils.TYPE_FIREBASE
+import com.example.notesmvvm.utils.TYPE_ROOM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,8 +42,8 @@ fun MainScreen(navHostController: NavHostController, viewModel: MainViewModel) {
             Icon(imageVector = Icons.Filled.AddCircle, contentDescription = null)
         }
     }) {
-        LazyColumn{
-            items(notes){note ->
+        LazyColumn {
+            items(notes) { note ->
                 NoteItem(paddingValues = it, navHostController = navHostController, note = note)
             }
         }
@@ -52,12 +56,17 @@ fun NoteItem(
     navHostController: NavHostController,
     note: Note
 ) {
+    val noteId = when (BD_TYPE) {
+        TYPE_FIREBASE -> note.firebaseId
+        TYPE_ROOM -> note.id
+        else -> Constants.Keys.EMPTY
+    }
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(paddingValues)
             .padding(vertical = 8.dp, horizontal = 24.dp)
-            .clickable { navHostController.navigate(route = Screens.Note.route + "/${note.id}") },
+            .clickable { navHostController.navigate(route = Screens.Note.route + "/${noteId}") },
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {
         Text(

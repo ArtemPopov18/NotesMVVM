@@ -30,15 +30,27 @@ class AppFirebaseRepository : DatabaseRepository {
         database.child(noteId)
             .updateChildren(mapNotes)
             .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { Log.d("проверь датаслой", "Ошибка ${it.message}") }
+            .addOnFailureListener { Log.d("проверь датаслой", "Ошибка create ${it.message}") }
     }
 
     override suspend fun update(note: Note, onSuccess: () -> Unit) {
-        TODO("Not yet implemented")
+        val noteId = note.firebaseId
+        val mapNotes = hashMapOf<String, Any>()
+
+        mapNotes[FIREBASE_ID] = noteId
+        mapNotes[Constants.Keys.NOTE_TITLE] = note.title
+        mapNotes[Constants.Keys.NOTE_SUBTITLE] = note.subtitle
+
+        database.child(noteId)
+            .updateChildren(mapNotes)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { Log.d("проверь датаслой", "Ошибка update ${it.message}") }
     }
 
     override suspend fun delete(note: Note, onSuccess: () -> Unit) {
-        TODO("Not yet implemented")
+        database.child(note.firebaseId).removeValue()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { Log.d("проверь датаслой", "Ошибка delete ${it.message}") }
     }
 
     override fun singOut() {
